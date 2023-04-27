@@ -4,7 +4,7 @@
 #include <queue>
 
 using namespace std;
-
+//hola 
 
 struct Rafaga{
     string tipo;
