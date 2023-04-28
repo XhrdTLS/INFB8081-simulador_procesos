@@ -1,0 +1,9 @@
+﻿  Source.cpp
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(28,4): error C2664: 'int GetWindowTextW(HWND,LPWSTR,int)': el argumento 2 no puede convertirse de 'char [100]' a 'LPWSTR'
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(28,25): message : Los tipos señalados no están relacionados; la conversión requiere reinterpret_cast, conversión de estilo de C o conversión de estilo de función entre paréntesis
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winuser.h(8946,1): message : vea la declaración de 'GetWindowTextW'
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(28,4): message : al hacer coincidir la lista de argumentos '(HWND, char [100], int)'
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(29,4): error C2664: 'int MessageBoxW(HWND,LPCWSTR,LPCWSTR,UINT)': el argumento 2 no puede convertirse de 'char [100]' a 'LPCWSTR'
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(29,21): message : Los tipos señalados no están relacionados; la conversión requiere reinterpret_cast, conversión de estilo de C o conversión de estilo de función entre paréntesis
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winuser.h(9176,1): message : vea la declaración de 'MessageBoxW'
+C:\Users\gabog\source\repos\Project2\Project2\Source.cpp(29,4): message : al hacer coincidir la lista de argumentos '(int, char [100], const char [7], long)'
