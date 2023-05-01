@@ -5,47 +5,49 @@
 
 using namespace std;
 
-
-struct Rafaga{
+struct Rafaga
+{
     string tipo;
     float duracion;
-    //Rafaga *siguiente;
-
+    // Rafaga *siguiente;
 };
 
-struct proceso{
+struct proceso
+{
 
     int numero_proceso;
     float tiempo_llegada;
     int numero_rafagas;
-    queue <Rafaga> cola_de_rafagas;
-
+    queue<Rafaga> cola_de_rafagas;
 };
 
-void llenar_rafaga(Rafaga una_rafaga,int cant)
+void llenar_rafaga(Rafaga una_rafaga, int cant)
 {
 
     int i = 0;
-    queue <Rafaga> cola_de_rafagas;
+    queue<Rafaga> cola_de_rafagas;
 
-    while(i < cant){
+    while (i < cant)
+    {
         cola_de_rafagas.push(una_rafaga);
     }
-
 }
 
-void llenar_proceso(proceso x[], int n){
+void llenar_proceso(proceso x[], int n)
+{
 
-    queue <Rafaga> cola_de_rafagas;
+    queue<Rafaga> cola_de_rafagas;
 
     Rafaga una_rafaga;
     //
     string tpo;
     int i, j;
     i = 0;
-    while(i<n){
+    while (i < n)
+    {
         x[i].numero_proceso = i;
-        cout << "Cual es el tiempo de llegada del proceso numero: "<< x[i].numero_proceso +1<<"?, " << "se tomara en segundos: " << endl;
+        cout << "Cual es el tiempo de llegada del proceso numero: " << x[i].numero_proceso + 1 << "?, "
+             << "se tomara en segundos: " << endl;
         cin >> x[i].tiempo_llegada;
         fflush(stdin);
 
@@ -53,80 +55,86 @@ void llenar_proceso(proceso x[], int n){
         cin >> x[i].numero_rafagas;
         fflush(stdin);
 
-        //llenar rafagas
+        // llenar rafagas
         j = 0;
-        while(j < x[i].numero_rafagas){
+        while (j < x[i].numero_rafagas)
+        {
 
-            do{
-                cout << "Rafaga numero: " << j+1 << endl;
+            do
+            {
+                cout << "Rafaga numero: " << j + 1 << endl;
                 cout << "Rafaga de CPU o E/S: " << endl;
                 getline(cin, una_rafaga.tipo);
-                cout <<" Antes de llenar la duracion" << una_rafaga.tipo << endl;
+                cout << " Antes de llenar la duracion" << una_rafaga.tipo << endl;
                 fflush(stdin);
-                if((una_rafaga.tipo == "CPU") || (una_rafaga.tipo == "E/S")){
+                if ((una_rafaga.tipo == "CPU") || (una_rafaga.tipo == "E/S") || (una_rafaga.tipo == "cpu") || (una_rafaga.tipo == "e/s"))
+                {
                     cout << "Cuanto durara la rafaga?: " << endl;
                     cin >> una_rafaga.duracion;
                     fflush(stdin);
                 }
-            }while((una_rafaga.tipo != "CPU") && (una_rafaga.tipo != "E/S"));
+            } while ((una_rafaga.tipo != "CPU") && (una_rafaga.tipo != "E/S") && (una_rafaga.tipo != "cpu") && (una_rafaga.tipo != "e/s"));
             fflush(stdin);
 
-            //Ver si funciona el hacer la cola de rafagas
+            // Ver si funciona el hacer la cola de rafagas
             cout << "INSERTAR" << endl;
             x[i].cola_de_rafagas.push(una_rafaga);
-            //POSIBLE ELIMINAR
+            // POSIBLE ELIMINAR
             cola_de_rafagas.push(una_rafaga);
             j++;
         }
         i++;
     }
-    //PROBAR SI ES QUE GUARDA EN LA COLA
+    // PROBAR SI ES QUE GUARDA EN LA COLA
     /*cout <<"PRIMERO TIPO: " << cola_de_rafagas.front().tipo << endl;
     cout <<"PRIMERO DURACION: " << cola_de_rafagas.front().duracion << endl;
     cola_de_rafagas.pop();
     cout <<"SEGUNDO TIPO: " << cola_de_rafagas.front().tipo << endl;
     cout <<"SEGUNDO DURACION: " << cola_de_rafagas.front().duracion << endl;
     */
-
-
 }
-//NO FUNCIONA, ELIMINAR
+// NO FUNCIONA, ELIMINAR
 void ordenar_procesos(proceso x[], int cant_procesos)
 {
     int i, j;
     proceso aux;
-    cout <<"CANTIDAD PROCESOS: " << cant_procesos << endl;
+    cout << "CANTIDAD PROCESOS: " << cant_procesos << endl;
     int cont;
-    for(i = 0; i < cant_procesos; i++){
-            cout <<"CANTIDAD PROCESOS PRIMER FOR: " << cant_procesos << endl;
-        for(j = 0; j < cant_procesos; j++){
-            cout <<"CANTIDAD PROCESOS SEGUNDO FOR: " << cant_procesos << endl;
+    for (i = 0; i < cant_procesos; i++)
+    {
+        cout << "CANTIDAD PROCESOS PRIMER FOR: " << cant_procesos << endl;
+        for (j = 0; j < cant_procesos; j++)
+        {
+            cout << "CANTIDAD PROCESOS SEGUNDO FOR: " << cant_procesos << endl;
 
-            if(x[j].tiempo_llegada > x[j+1].tiempo_llegada){
+            if (x[j].tiempo_llegada > x[j + 1].tiempo_llegada)
+            {
                 aux = x[j];
-                x[j] = x[j+1];
-                x[j+1] = aux;
+                x[j] = x[j + 1];
+                x[j + 1] = aux;
             }
         }
     }
-    for(cont = 0; cont < cant_procesos; cont ++){
+    for (cont = 0; cont < cant_procesos; cont++)
+    {
 
-        cout <<"MAIN ORDENAR: " << x[cont].tiempo_llegada << endl;
+        cout << "MAIN ORDENAR: " << x[cont].tiempo_llegada << endl;
     }
 }
-//que sea una lista de entrada, pasar el arreglo de procesos a una lista
-void llenar_queue(queue <proceso> una_cola_de_procesos){
+// que sea una lista de entrada, pasar el arreglo de procesos a una lista
+void llenar_queue(queue<proceso> una_cola_de_procesos)
+{
 
-    queue <proceso> cola_espera_uno, cola_espera_dos;
+    queue<proceso> cola_espera_uno, cola_espera_dos;
     proceso cpu, e_s;
     float medidor = 0;
-    //Para decir que estan vacios el cpu y e/s
+    // Para decir que estan vacios el cpu y e/s
     cpu.tiempo_llegada = 0;
     e_s.tiempo_llegada = 0;
-    //no se si vaya este while, preguntar
-    //while((!una_cola_de_procesos.empty())||(!cola_espera_uno.empty())||(!cola_espera_uno.empty())||(!cpu.cola_de_rafagas.empty())
-    //      ||(!e_s.cola_de_rafagas.empty())){}
-
+    // no se si vaya este while, preguntar
+    // while((!una_cola_de_procesos.empty())||(!cola_espera_uno.empty())||(!cola_espera_uno.empty())||(!cpu.cola_de_rafagas.empty())
+    //       ||(!e_s.cola_de_rafagas.empty())){}
+    /*
     //Entra el primer proceso a la cola uno (CPU)
     if((!una_cola_de_procesos.empty())&&(cola_espera_uno.empty())&&(cola_espera_dos.empty())&&(cpu.tiempo_llegada == 0)
        &&(e_s.tiempo_llegada == 0)){
@@ -149,6 +157,7 @@ void llenar_queue(queue <proceso> una_cola_de_procesos){
         cpu.tiempo_llegada = 0;
 
     }
+    */
 
     /*//comprobar mas adelante si tira un error cuando este vacio y compare el front con cpu llegada
     if(!una_cola_de_procesos.empty()&&(e_s.tiempo_llegada == 0)&&(cpu.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)&&
@@ -173,16 +182,27 @@ void llenar_queue(queue <proceso> una_cola_de_procesos){
 
         }
     }*/
-    //1
-    if((!una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada == 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada == 0)){
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+
+    // Prueba de otra logica**********************----------------------------------
+
+    // 1
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
 
             cola_espera_uno.push(una_cola_de_procesos.front());
             una_cola_de_procesos.pop();
+            cout << "El proceso numero: " << una_cola_de_procesos.front().numero_proceso + 1 << " ingreso a la cola de CPU" << endl;
         }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+            /*duda respecto a si entra o no tambien el que este en la cola de procesos en la cola espera uno
+            yo creo que ya, que debe pasar el tiempo de rafaga del primero que entro a la cola
 
+
+
+            */
             cpu = cola_espera_uno.front();
             cola_espera_uno.pop();
             /*cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
@@ -193,42 +213,123 @@ void llenar_queue(queue <proceso> una_cola_de_procesos){
             e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
             e_s.cola_de_rafagas.pop();*/
         }
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             cpu = cola_espera_uno.front();
             cola_espera_uno.pop();
-            //cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
-            //cpu.cola_de_rafagas.pop();
-            //cola_espera_dos.push(cpu);
-            //cpu.tiempo_llegada = 0;
-            e_s = cola_espera_dos.front();
-            cola_espera_dos.pop();
-            //e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
-            //e_s.cola_de_rafagas.pop();
+            // cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            // cpu.cola_de_rafagas.pop();
+            // cola_espera_dos.push(cpu);
+            // cpu.tiempo_llegada = 0;
+            //----------------e_s = cola_espera_dos.front();
+            //----------------cola_espera_dos.pop();
+            // e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            // e_s.cola_de_rafagas.pop();
         }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-            cola_espera_uno.push(una_cola_de_procesos.front());
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+            // creo que no va, por la razon de que debe terminar la rafaga del proceso que entra e/s
+            /*cola_espera_uno.push(una_cola_de_procesos.front());
             una_cola_de_procesos.pop();
+            */
+            e_s = cola_espera_dos.front();
+            cola_espera_dos.pop();
+        }
+    } // 2--------------ESTA ES LA CORRECTA
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
+            /*
+            if(cpu.tiempo_llegada == una_cola_de_procesos.front().tiempo_llegada){
+                medidor = una_cola_de_procesos.front().tiempo_llegada;
+                while((cpu.tiempo_llegada >=medidor)&&(cola_espera_uno.size() < 5)&&(!una_cola_de_procesos.empty())){
+                    cola_espera_uno.push(una_cola_de_procesos.front());
+                    una_cola_de_procesos.pop();
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                }
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+
+            }
+            */
+            // cola procesos no deberia ir ahi, deberia preguntar antes que no este vacia, tal vez antes
+            if (cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada)
+            {
+                medidor = una_cola_de_procesos.front().tiempo_llegada;
+                while ((cpu.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                {
+                    cola_espera_uno.push(una_cola_de_procesos.front());
+                    una_cola_de_procesos.pop();
+                    if (!una_cola_de_procesos.empty())
+                    {
+                        medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    }
+                }
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+            else
+            {
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+        }
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
+            if (cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada)
+            {
+                medidor = una_cola_de_procesos.front().tiempo_llegada;
+                while ((cpu.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                {
+                    cola_espera_uno.push(una_cola_de_procesos.front());
+                    una_cola_de_procesos.pop();
+                    if (!una_cola_de_procesos.empty())
+                    {
+                        medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    }
+                }
+                // Revisar si funciona con esto o no, y revisar la condicion que se le parece en la 1
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+            else
+            {
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+        } //////////////////////////////////////////////////////////////////////////////////
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             e_s = cola_espera_dos.front();
             cola_espera_dos.pop();
-
-        }
-    }//2
-    if((!una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada != 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada == 0)){
-
-        cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
-        cpu.cola_de_rafagas.pop();
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
+            /*if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
                 medidor = una_cola_de_procesos.front().tiempo_llegada;
                 while((cpu.tiempo_llegada >=medidor)&&(cola_espera_uno.size() < 5)&&(!una_cola_de_procesos.empty())){
                     cola_espera_uno.push(una_cola_de_procesos.front());
                     una_cola_de_procesos.pop();
-                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    if(!una_cola_de_procesos.empty()){
+                        medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    }
+
                 }
 
                 cola_espera_dos.push(cpu);
@@ -239,377 +340,762 @@ void llenar_queue(queue <proceso> una_cola_de_procesos){
 
                 cola_espera_dos.push(cpu);
                 cpu.tiempo_llegada = 0;
-            }
+
+            }*/
         }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-                medidor = una_cola_de_procesos.front().tiempo_llegada;
-                while((cpu.tiempo_llegada >=medidor)&&(cola_espera_uno.size() < 5)&&(!una_cola_de_procesos.empty())){
-                    cola_espera_uno.push(una_cola_de_procesos.front());
-                    una_cola_de_procesos.pop();
-                    medidor = una_cola_de_procesos.front().tiempo_llegada;
-                }
-
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-
-            }
-            else{
-
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-            }
-        }//////////////////////////////////////////////////////////////////////////////////
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             e_s = cola_espera_dos.front();
             cola_espera_dos.pop();
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
+            /*tal vez se pueda ahorrar la linea while y cambiar todo el
+            while((cpu.tiempo_llegada >=una_cola_de_procesos.front().tiempo_llegada)
+                  &&(cola_espera_uno.size() < 5)&&(!una_cola_de_procesos.empty())){
+                    cola_espera_uno.push(una_cola_de_procesos.front());
+                    una_cola_de_procesos.pop();
+            }
+            */
+            /*if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
                 medidor = una_cola_de_procesos.front().tiempo_llegada;
                 while((cpu.tiempo_llegada >=medidor)&&(cola_espera_uno.size() < 5)&&(!una_cola_de_procesos.empty())){
                     cola_espera_uno.push(una_cola_de_procesos.front());
                     una_cola_de_procesos.pop();
-                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    if(!una_cola_de_procesos.empty()){
+                        medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    }
 
                 }
 
                 cola_espera_dos.push(cpu);
                 cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
 
-            }
+
             else{
 
                 cola_espera_dos.push(cpu);
                 cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-            }
+            }*/
         }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
 
+    } // 3 cambios para revisar
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
 
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
+        // e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+        // e_s.cola_de_rafagas.pop();
 
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+            /* Creo que deberia ir este
+            if(e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada){
                 cola_espera_uno.push(una_cola_de_procesos.front());
                 una_cola_de_procesos.pop();
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
             }
             else{
+                if(cola_espera_uno.size() < 5){
+                    cola_espera_uno.push(e_s);
+                    e_s.tiempo_llegada = 0;
+                }
+            }
+            */
 
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
+            if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+            {
+                medidor = una_cola_de_procesos.front().tiempo_llegada;
+                while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                {
+                    cola_espera_uno.push(una_cola_de_procesos.front());
+                    una_cola_de_procesos.pop();
+                    if (!una_cola_de_procesos.empty())
+                    {
+                        medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    }
+                }
+            }
+            else
+            {
+                if (cola_espera_uno.size() < 5)
+                {
+                    cola_espera_uno.push(e_s);
+                    e_s.tiempo_llegada = 0;
+                }
+            }
+        }
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+            // entra primero a la cpu, despues la cola de proceso a la cola uno
+            cpu = cola_espera_uno.front();
+            cola_espera_uno.pop();
+        }
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            cpu = cola_espera_uno.front();
+            cola_espera_uno.pop();
+        }
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+            {
+                cola_espera_uno.push(una_cola_de_procesos.front());
+                una_cola_de_procesos.pop();
+            }
+            else
+            {
+                if (cola_espera_uno.size() < 5)
+                {
+                    cola_espera_uno.push(e_s);
+                    e_s.tiempo_llegada = 0;
+                }
             }
         }
 
-    }//3
-    if((!una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada == 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada != 0)){
+    } // 4 //revisar en que momento avanza cpu a cola dos
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
 
-        e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        // tal vez poner que falla si la ultima rafaga es E/S
+
+        /*e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
         e_s.cola_de_rafagas.pop();
-
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-
-            }
-            else{
-
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-            }
-        }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-
-            }
-            else{
-
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-            }
-        }
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-
-            }
-            else{
-
-                cpu = cola_espera_uno.front();
-                cola_espera_uno.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-            }
-        }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-            }
-            else{
-
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-            }
-        }
-
-
-    }//4
-    if((!una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada != 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada != 0)){
-
-        e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
-        e_s.cola_de_rafagas.pop();
         cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
-        cpu.cola_de_rafagas.pop();
+        cpu.cola_de_rafagas.pop();*/
 
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
 
-            cola_espera_dos.push(cpu);
-            cpu.tiempo_llegada = 0;
+            if (cpu.tiempo_llegada <= e_s.tiempo_llegada)
+            {
 
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
             }
-            else{
+            else
+            {
 
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
+                if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                    {
+                        cola_espera_uno.push(una_cola_de_procesos.front());
+                        una_cola_de_procesos.pop();
+                        if (!una_cola_de_procesos.empty())
+                        {
+                            medidor = una_cola_de_procesos.front().tiempo_llegada;
+                        }
+                    }
+                }
+                else
+                {
+                    if (cola_espera_uno.size() < 5)
+                    {
+                        cola_espera_uno.push(e_s);
+                        e_s.tiempo_llegada = 0;
+                    }
+                }
             }
         }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
 
-            cola_espera_dos.push(cpu);
-            cpu.tiempo_llegada = 0;
+            if (cpu.tiempo_llegada <= e_s.tiempo_llegada)
+            {
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+            else
+            {
+
+                if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                    {
+                        cola_espera_uno.push(una_cola_de_procesos.front());
+                        una_cola_de_procesos.pop();
+                        if (!una_cola_de_procesos.empty())
+                        {
+                            medidor = una_cola_de_procesos.front().tiempo_llegada;
+                        }
+                    }
+                }
+                else
+                {
+                    if (cola_espera_uno.size() < 5)
+                    {
+                        cola_espera_uno.push(e_s);
+                        e_s.tiempo_llegada = 0;
+                    }
+                }
+            }
+        }
+
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            if ((cpu.tiempo_llegada <= e_s.tiempo_llegada) && (cola_espera_dos.size() < 5))
+            {
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+            else
+            {
+
+                if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                    {
+                        cola_espera_uno.push(una_cola_de_procesos.front());
+                        una_cola_de_procesos.pop();
+                        if (!una_cola_de_procesos.empty())
+                        {
+                            medidor = una_cola_de_procesos.front().tiempo_llegada;
+                        }
+                    }
+                }
+                else
+                {
+                    if (cola_espera_uno.size() < 5)
+                    {
+                        cola_espera_uno.push(e_s);
+                        e_s.tiempo_llegada = 0;
+                    }
+                }
+            }
+        }
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            if ((cpu.tiempo_llegada <= e_s.tiempo_llegada) && (cola_espera_dos.size() < 5))
+            {
+
+                cola_espera_dos.push(cpu);
+                cpu.tiempo_llegada = 0;
+            }
+            else
+            {
+
+                if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                    while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+                    {
+                        cola_espera_uno.push(una_cola_de_procesos.front());
+                        una_cola_de_procesos.pop();
+                        if (!una_cola_de_procesos.empty())
+                        {
+                            medidor = una_cola_de_procesos.front().tiempo_llegada;
+                        }
+                    }
+                }
+                else
+                {
+                    if (cola_espera_uno.size() < 5)
+                    {
+                        cola_espera_uno.push(e_s);
+                        e_s.tiempo_llegada = 0;
+                    }
+                }
+            }
+        }
+    } // 2.1
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
+            // TERMINARON TODOS LOS PROCESOS
+        }
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
             cpu = cola_espera_uno.front();
             cola_espera_uno.pop();
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-
-            }
-            else{
-
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-            }
         }
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-            cola_espera_dos.push(cpu);
-            cpu.tiempo_llegada = 0;
-            cpu = cola_espera_uno.front();
-            cola_espera_uno.pop();
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-
-            }
-            else{
-
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-            }
-        }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-            cola_espera_dos.push(cpu);
-            cpu.tiempo_llegada = 0;
-
-            if(e_s.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-            }
-            else{
-
-                cola_espera_uno.push(e_s);
-                e_s.tiempo_llegada = 0;
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-            }
-        }
-
-
-    }//2.1
-    if((una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada == 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada == 0)){
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-            //TERMINO
-        }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
-
-            cpu = cola_espera_uno.front();
-            cola_espera_uno.pop();
-
-        }
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             cpu = cola_espera_uno.front();
             cola_espera_uno.pop();
 
             e_s = cola_espera_dos.front();
             cola_espera_dos.pop();
-
         }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             e_s = cola_espera_dos.front();
             cola_espera_dos.pop();
-
         }
-    }//2.2
-    if((una_cola_de_procesos.empty())&&(cola_espera_uno.size() < 5)&&(cpu.tiempo_llegada != 0)&&(cola_espera_dos.size()<5)
-        &&(e_s.tiempo_llegada == 0)){
+    } // 2.2
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
 
-        cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
-        cpu.cola_de_rafagas.pop();
-        if((cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
 
             cola_espera_dos.push(cpu);
             cpu.tiempo_llegada = 0;
-
         }
-        if((!cola_espera_uno.empty())&&(cola_espera_dos.empty())){
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
 
+            // Tal vez hacer mas de una accion?
+            cola_espera_dos.push(cpu);
+            cpu.tiempo_llegada = 0;
+            // cpu = cola_espera_uno.front();
+            // cola_espera_uno.pop();
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
 
             cola_espera_dos.push(cpu);
             cpu.tiempo_llegada = 0;
+        }
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            cola_espera_dos.push(cpu);
+            cpu.tiempo_llegada = 0;
+        }
+
+    } // 2.3
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+        }
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+        }
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+        }
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+        }
+    } // 2.4
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+        if ((cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+            // Tal vez hacer dos acciones
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+
+            // cola_espera_dos.push(cpu);
+            // cpu.tiempo_llegada = 0;
+        }
+        if ((!cola_espera_uno.empty()) && (cola_espera_dos.empty()))
+        {
+            // Tal vez hacer dos acciones
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+
+            // cola_espera_dos.push(cpu);
+            // cpu.tiempo_llegada = 0;
+        }
+        if ((!cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            // Tal vez hacer dos acciones
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+
+            // cola_espera_dos.push(cpu);
+            // cpu.tiempo_llegada = 0;
+        }
+        if ((cola_espera_uno.empty()) && (!cola_espera_dos.empty()))
+        {
+
+            // Tal vez hacer dos acciones
+            cola_espera_uno.push(e_s);
+            e_s.tiempo_llegada = 0;
+
+            // cola_espera_dos.push(cpu);
+            // cpu.tiempo_llegada = 0;
+        }
+    } // 3.1
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+
+        cpu = cola_espera_uno.front();
+        cola_espera_uno.pop();
+        // tal vez no es necesaria la parte de abajo
+        /*
+        if((cola_espera_dos.empty()){
+
             cpu = cola_espera_uno.front();
             cola_espera_uno.pop();
-/////////////////////////////////////////////////////////////////////////////////////////////////
         }
-        if((!cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
+        if((!cola_espera_dos.empty()){
 
+            cpu = cola_espera_uno.front();
+            cola_espera_uno.pop();
 
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
+            //tal vez hacer que haga dos cosas
+            //e_s = cola_espera_dos.front();
+            //cola_espera_dos.pop();
 
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
+        }*/
 
-            }
-            else{
+    } // 3.2
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
 
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-            }
-        }
-        if((cola_espera_uno.empty())&&(!cola_espera_dos.empty())){
-
-
-            if(cpu.tiempo_llegada >= una_cola_de_procesos.front().tiempo_llegada){
-
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-
-            }
-            else{
-
-                cola_espera_dos.push(cpu);
-                cpu.tiempo_llegada = 0;
-                e_s = cola_espera_dos.front();
-                cola_espera_dos.pop();
-            }
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
         }
 
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        cola_espera_dos.push(cpu);
+        cpu.tiempo_llegada = 0;
+
+    } // 3.3
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        cola_espera_dos.push(cpu);
+        cpu.tiempo_llegada = 0;
+    }
+    // 3.4
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+
+        cpu = cola_espera_uno.front();
+        cola_espera_uno.pop();
     }
 
+    // 4.1 aca quede
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada == 0))
+    {
 
+        e_s = cola_espera_dos.front();
+        cola_espera_dos.pop();
+    }
+    // 4.2
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada == 0))
+    {
 
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        e_s = cola_espera_dos.front();
+        cola_espera_dos.pop();
+    }
+    // 4.3
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada != 0))
+    {
+        // Posible revision a como definimos como se vacia el CPU y E/S
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+        {
+            medidor = una_cola_de_procesos.front().tiempo_llegada;
+            while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+            {
+                cola_espera_uno.push(una_cola_de_procesos.front());
+                una_cola_de_procesos.pop();
+                if (!una_cola_de_procesos.empty())
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                }
+            }
+        }
+        else
+        {
+            if (cola_espera_uno.size() < 5)
+            {
+                cola_espera_uno.push(e_s);
+                e_s.tiempo_llegada = 0;
+            }
+        }
+    }
+    // 4.4
+    if ((!una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        if (e_s.tiempo_llegada > una_cola_de_procesos.front().tiempo_llegada)
+        {
+            medidor = una_cola_de_procesos.front().tiempo_llegada;
+            while ((e_s.tiempo_llegada >= medidor) && (cola_espera_uno.size() < 5) && (!una_cola_de_procesos.empty()))
+            {
+                cola_espera_uno.push(una_cola_de_procesos.front());
+                una_cola_de_procesos.pop();
+                if (!una_cola_de_procesos.empty())
+                {
+                    medidor = una_cola_de_procesos.front().tiempo_llegada;
+                }
+            }
+        }
+        else
+        {
+            if (cola_espera_uno.size() < 5)
+            {
+                cola_espera_uno.push(e_s);
+                e_s.tiempo_llegada = 0;
+            }
+        }
+    } // 5.1
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+
+        cpu = cola_espera_uno.front();
+        cola_espera_uno.pop();
+    } // 5.2
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada == 0))
+    {
+
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        cola_espera_dos.push(cpu);
+        cpu.tiempo_llegada = 0;
+
+    } // 5.3
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        cola_espera_dos.push(cpu);
+        cpu.tiempo_llegada = 0;
+    }
+    // 5.4
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() == 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() < 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+
+        cpu = cola_espera_uno.front();
+        cola_espera_uno.pop();
+    }
+    // 6.1
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada == 0))
+    {
+
+        e_s = cola_espera_dos.front();
+        cola_espera_dos.pop();
+    }
+    // 6.2
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada == 0))
+    {
+
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        e_s = cola_espera_dos.front();
+        cola_espera_dos.pop();
+    }
+    // 6.3
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada != 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada != 0))
+    {
+        // Posible revision a como definimos como se vacia el CPU y E/S
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        while ((!cpu.cola_de_rafagas.empty()) && (cpu.cola_de_rafagas.front().tipo == "CPU"))
+        {
+            cpu.tiempo_llegada = cpu.tiempo_llegada + cpu.cola_de_rafagas.front().duracion;
+            cpu.cola_de_rafagas.pop();
+        }
+
+        if (cpu.cola_de_rafagas.empty())
+        {
+            // TERMINA EL PROCESO
+        }
+
+        cola_espera_uno.push(e_s);
+        e_s.tiempo_llegada = 0;
+    }
+    // 6.4
+    if ((una_cola_de_procesos.empty()) && (cola_espera_uno.size() < 5) && (cpu.tiempo_llegada == 0) && (cola_espera_dos.size() == 5) && (e_s.tiempo_llegada != 0))
+    {
+
+        while ((!e_s.cola_de_rafagas.empty()) && (e_s.cola_de_rafagas.front().tipo == "E/S"))
+        {
+
+            e_s.tiempo_llegada = e_s.tiempo_llegada + e_s.cola_de_rafagas.front().duracion;
+            e_s.cola_de_rafagas.pop();
+        }
+        cola_espera_uno.push(e_s);
+        e_s.tiempo_llegada = 0;
+    }
 }
 
-
-    cola_espera_uno.push(una_cola_de_procesos.front());
+/*  cola_espera_uno.push(una_cola_de_procesos.front());
     una_cola_de_procesos.pop();
 
     cpu = cola_espera_uno.front();
@@ -687,49 +1173,49 @@ void llenar_queue(queue <proceso> una_cola_de_procesos){
     cola_espera_dos.front().cola_de_rafagas.pop();
     */
 
-    //Ahora tiene que comparar que entra primero, un proceso de la cola de proceso o un proceso de la cola 2
-    while((una_cola_de_procesos.size() > 0)||(cola_espera_dos.size() > 0)){
+// Ahora tiene que comparar que entra primero, un proceso de la cola de proceso o un proceso de la cola 2
+/*  while((una_cola_de_procesos.size() > 0)||(cola_espera_dos.size() > 0)){
 
-        if((cola_espera_uno.size() < 5)){
+      if((cola_espera_uno.size() < 5)){
 
-            if(una_cola_de_procesos.front().tiempo_llegada < cola_espera_dos.front().tiempo_llegada){
-                cola_espera_uno.push(una_cola_de_procesos.front());
-                una_cola_de_procesos.pop();
-            }
-            else{
-                cola_espera_uno.push(cola_espera_dos.front());
-                cola_espera_dos.pop();
-            }
-        }
+          if(una_cola_de_procesos.front().tiempo_llegada < cola_espera_dos.front().tiempo_llegada){
+              cola_espera_uno.push(una_cola_de_procesos.front());
+              una_cola_de_procesos.pop();
+          }
+          else{
+              cola_espera_uno.push(cola_espera_dos.front());
+              cola_espera_dos.pop();
+          }
+      }
 
-        //Hacer un if que disminuya la lista que se le saca
-        una_cola_de_procesos.pop();
-        cola_espera_dos.pop();
-    }
+      //Hacer un if que disminuya la lista que se le saca
+      una_cola_de_procesos.pop();
+      cola_espera_dos.pop();
+  }
 
-}
+}*/
 
 int main()
 {
 
     int n, k;
-    queue <proceso> cola_de_procesos;
-    //ELIMINAR cont
+    queue<proceso> cola_de_procesos;
+    // ELIMINAR cont
     int cont = 0;
 
     cout << "Ingrese la cantidad de procesos que desea (recuerde que es un maximo de 10 procesos): " << endl;
     cin >> n;
-    if ((n <= 0) || ( n > 10 )){
-        do{
+    if ((n <= 0) || (n > 10))
+    {
+        do
+        {
             cout << "Ingreso un numero equivocado de procesos" << endl;
             cout << "Ingreso la cantidad de procesos que desea:" << endl;
             cin >> n;
-        }while ((n <= 0) || ( n > 10 ));
+        } while ((n <= 0) || (n > 10));
     }
 
-
-
-    //Se llena el arreglo con n procesos
+    // Se llena el arreglo con n procesos
     proceso cantidad_procesos[n];
     llenar_proceso(cantidad_procesos, n);
 
@@ -740,35 +1226,38 @@ int main()
     }
     */
 
-    //PROBAR SI ES QUE GUARDA LA COLA EN EL PROCESO
+    // PROBAR SI ES QUE GUARDA LA COLA EN EL PROCESO
 
-    //cout <<"MAIN PRIMERO TIPO: " << cantidad_procesos[0].cola_de_rafagas.front().tipo << endl;
-    //cout <<"MAIN PRIMERO DURACION: " << cantidad_procesos[0].cola_de_rafagas.front().duracion << endl;
+    // cout <<"MAIN PRIMERO TIPO: " << cantidad_procesos[0].cola_de_rafagas.front().tipo << endl;
+    // cout <<"MAIN PRIMERO DURACION: " << cantidad_procesos[0].cola_de_rafagas.front().duracion << endl;
 
-    //PROBAR SI SE ORDENAN LOS PROCESOS DE MENOR A MAYOR
+    // PROBAR SI SE ORDENAN LOS PROCESOS DE MENOR A MAYOR
 
-
-    //ordenar_procesos(cantidad_procesos, n);
-    //ORDENAR menor a mayor
-    cout <<"ORDENAR menor a mayor"<< endl;
+    // ordenar_procesos(cantidad_procesos, n);
+    // ORDENAR menor a mayor
+    cout << "ORDENAR menor a mayor" << endl;
     int i, j;
     proceso aux;
-    for(i = 0; i < n; i++){
-        for(j = 0; j < n; j++){
-            if(cantidad_procesos[j].tiempo_llegada > cantidad_procesos[j+1].tiempo_llegada){
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            if (cantidad_procesos[j].tiempo_llegada > cantidad_procesos[j + 1].tiempo_llegada)
+            {
                 aux = cantidad_procesos[j];
-                cantidad_procesos[j] = cantidad_procesos[j+1];
-                cantidad_procesos[j+1] = aux;
+                cantidad_procesos[j] = cantidad_procesos[j + 1];
+                cantidad_procesos[j + 1] = aux;
             }
         }
     }
     ////////
-    //PARA PASAR EL ARREGLO DE PROCESOS A UNA LISTA DE PROCESOS
-    for(k = 0; k < n; k++){
+    // PARA PASAR EL ARREGLO DE PROCESOS A UNA LISTA DE PROCESOS
+    for (k = 0; k < n; k++)
+    {
 
         cola_de_procesos.push(cantidad_procesos[k]);
     }
-    //Para saber si se guardaron los procesos en la lista
+    // Para saber si se guardaron los procesos en la lista
     /*
     for(k = 0; k < n; k++){
         cout <<"Cola de procesos numero: " << cola_de_procesos.front().numero_proceso << endl;
@@ -776,7 +1265,6 @@ int main()
         cola_de_procesos.pop();
     }
     */
-
 
     /*
     cout <<"MAIN ORDENAR222" << endl;
@@ -788,6 +1276,7 @@ int main()
     }
     */
 
+    llenar_queue(cola_de_procesos);
 
     cout << "Hello world!" << endl;
     return 0;
