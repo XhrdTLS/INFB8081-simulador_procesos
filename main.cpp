@@ -1,3 +1,14 @@
+/* Nombre integrantes
+    - Brian Moya
+    - Diego Aguirre
+    - Gabriel Gonzalez
+    - Gustavo Oyarce
+    - Jose Donoso
+    - Tomas Lillo
+
+    INFB8081 Sistemas Operativos 2023-1
+*/
+
 #include <iostream>
 #include <string.h>
 #include <string>
